@@ -3,43 +3,11 @@ cmake_minimum_required(VERSION 2.8)
 project(HoudiniBifrost CXX)
 
 
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${PROJECT_SOURCE_DIR}/cmake/modules/FindHoudini)
 
-# HOUDINI
-if(NOT DEFINED HOUDINI_DIR)
-	set(HOUDINI_DIR $ENV{HFS})
-endif()
+find_package(Houdini)
 
-if(NOT DEFINED HOUDINI_DIR)
-	message(FATAL_ERROR  "HFS environment variable not found, or HOUDINI_DIR cmake variable is not set.")
-endif()
-message(STATUS "Houdini path: " ${HOUDINI_DIR})
-
-if(NOT EXISTS ${HOUDINI_DIR}/bin/hcustom)
-	message(FATAL_ERROR "hcustom is not found in directory " ${HOUDINI_DIR}/bin)
-endif()
-message(STATUS "hcustom found: " ${HOUDINI_DIR}/bin/hcustom)
-
-
-# run hcustom and extract definitions
-execute_process(COMMAND "${HOUDINI_DIR}/bin/hcustom" "-c" OUTPUT_VARIABLE HOUDINI_CXXFLAGS)
-string(STRIP ${HOUDINI_CXXFLAGS} HOUDINI_CXXFLAGS)
-string(REPLACE " " ";" HOUDINI_CXXFLAGS ${HOUDINI_CXXFLAGS})
-
-execute_process(COMMAND "${HOUDINI_DIR}/bin/hcustom" "-m" OUTPUT_VARIABLE HOUDINI_LDFLAGS)
-string(STRIP ${HOUDINI_LDFLAGS} HOUDINI_LDFLAGS)
-string(REPLACE " " ";" HOUDINI_LDFLAGS ${HOUDINI_LDFLAGS})
-
-# Houdini header test
-set(HOUDINI_HEADER_TEST ${HOUDINI_DIR}/toolkit/include/GEO/GEO_IOTranslator.h)
-if(NOT EXISTS ${HOUDINI_HEADER_TEST})
-	message(FATAL_ERROR "${HOUDINI_HEADER_TEST} not found!")
-endif()
-message(STATUS "Houdini header test found: " ${HOUDINI_HEADER_TEST})
-
-# Add Houdini dirs
-include_directories(${HOUDINI_DIR}/toolkit/include)
-link_directories(${HOUDINI_DIR}/dsolib)
-
+message(${HODUINI_VERSION})
 
 
 # BIFROST
