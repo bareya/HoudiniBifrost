@@ -1,3 +1,0 @@
-[submodule "cmake"]
-	path = cmake/modules/FindHoudini
-	url = https://github.com/bareya/CMakeFindHoudini
