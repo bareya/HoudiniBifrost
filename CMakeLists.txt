@@ -1,53 +1,36 @@
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 3.0)
 
 project(HoudiniBifrost CXX)
 
-
+add_definitions(-Wno-comment)
 
 # HOUDINI
-if(NOT DEFINED HOUDINI_DIR)
-	set(HOUDINI_DIR $ENV{HFS})
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${PROJECT_SOURCE_DIR}/cmake/modules/FindHoudini)
+find_package(Houdini)
+include_directories(${HOUDINI_INCLUDE})
+link_directories(${HOUDINI_LIBRARIES})
+
+# MAYA
+if(NOT DEFINED MAYA_DIR)
+	message(FATAL_ERROR "MAYA_DIR cmake variable is not set.")
 endif()
+message(STATUS "Maya path:" ${MAYA_DIR})
 
-if(NOT DEFINED HOUDINI_DIR)
-	message(FATAL_ERROR  "HFS environment variable not found, or HOUDINI_DIR cmake variable is not set.")
+find_path(MAYA_MGLOBAL MGlobal.h HINTS ${MAYA_DIR}/include/maya)
+if(${MAYA_MGLOBAL} STREQUAL "MAYA_MGLOBAL-NOTFOUND")
+        message(FATAL_ERROR "MGlobal.h header has not been found in ${MAYA_DIR}/include/maya")
 endif()
-message(STATUS "Houdini path: " ${HOUDINI_DIR})
+message(STATUS "Maya MGlobal.h: " ${MAYA_MGLOBAL})
+include_directories(${MAYA_DIR}/include)
+link_directories(${MAYA_DIR}/lib)
 
-if(NOT EXISTS ${HOUDINI_DIR}/bin/hcustom)
-	message(FATAL_ERROR "hcustom is not found in directory " ${HOUDINI_DIR}/bin)
-endif()
-message(STATUS "hcustom found: " ${HOUDINI_DIR}/bin/hcustom)
-
-
-# run hcustom and extract definitions
-execute_process(COMMAND "${HOUDINI_DIR}/bin/hcustom" "-c" OUTPUT_VARIABLE HOUDINI_CXXFLAGS)
-string(STRIP ${HOUDINI_CXXFLAGS} HOUDINI_CXXFLAGS)
-string(REPLACE " " ";" HOUDINI_CXXFLAGS ${HOUDINI_CXXFLAGS})
-
-execute_process(COMMAND "${HOUDINI_DIR}/bin/hcustom" "-m" OUTPUT_VARIABLE HOUDINI_LDFLAGS)
-string(STRIP ${HOUDINI_LDFLAGS} HOUDINI_LDFLAGS)
-string(REPLACE " " ";" HOUDINI_LDFLAGS ${HOUDINI_LDFLAGS})
-
-# Houdini header test
-set(HOUDINI_HEADER_TEST ${HOUDINI_DIR}/toolkit/include/GEO/GEO_IOTranslator.h)
-if(NOT EXISTS ${HOUDINI_HEADER_TEST})
-	message(FATAL_ERROR "${HOUDINI_HEADER_TEST} not found!")
-endif()
-message(STATUS "Houdini header test found: " ${HOUDINI_HEADER_TEST})
-
-# Add Houdini dirs
-include_directories(${HOUDINI_DIR}/toolkit/include)
-link_directories(${HOUDINI_DIR}/dsolib)
-
-
+set(BIFROST_DIR ${MAYA_DIR}/plug-ins/bifrost)
 
 # BIFROST
 if(NOT DEFINED BIFROST_DIR)
 	message(FATAL_ERROR "BIFROST_DIR cmake variable is not set.")
 endif()
-
-message("Using Bifrost: " ${BIFROST_DIR})
+message(STATUS "Bifrost: " ${BIFROST_DIR})
 
 # Bifrsot header test
 if(NOT EXISTS ${BIFROST_DIR}/include/modules/aminomath/api/aminomath/mat.h)
@@ -64,6 +47,9 @@ string(REPLACE "\n" ";" BIFROST_MODULES ${BIFROST_MODULES})
 foreach(module ${BIFROST_MODULES})
 	include_directories(${BIFROST_DIR}/include/modules/${module}/api/)
 endforeach()
+
+set(CMAKE_BUILD_WITH_INSTALL_RPATH TRUE)
+SET(CMAKE_INSTALL_RPATH ${BIFROST_DIR}/lib)
 
 # Add src
 add_subdirectory(src)
