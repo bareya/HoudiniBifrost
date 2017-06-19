@@ -12,7 +12,7 @@ link_directories(${HOUDINI_LIBRARIES})
 
 # MAYA
 if(NOT DEFINED MAYA_DIR)
-	message(FATAL_ERROR "MAYA_DIR cmake variable is not set.")
+        message(FATAL_ERROR "MAYA_DIR cmake variable is not set.")
 endif()
 message(STATUS "Maya path:" ${MAYA_DIR})
 
@@ -28,13 +28,13 @@ set(BIFROST_DIR ${MAYA_DIR}/plug-ins/bifrost)
 
 # BIFROST
 if(NOT DEFINED BIFROST_DIR)
-	message(FATAL_ERROR "BIFROST_DIR cmake variable is not set.")
+        message(FATAL_ERROR "BIFROST_DIR cmake variable is not set.")
 endif()
 message(STATUS "Bifrost: " ${BIFROST_DIR})
 
 # Bifrsot header test
 if(NOT EXISTS ${BIFROST_DIR}/include/modules/aminomath/api/aminomath/mat.h)
-	message(FATAL_ERROR "mat.h not found")
+        message(FATAL_ERROR "mat.h not found")
 endif()
 
 # Add Bifrost dirs
@@ -45,11 +45,12 @@ execute_process(COMMAND ls ${BIFROST_DIR}/include/modules/ OUTPUT_VARIABLE BIFRO
 string(REPLACE "\n" ";" BIFROST_MODULES ${BIFROST_MODULES})
 
 foreach(module ${BIFROST_MODULES})
-	include_directories(${BIFROST_DIR}/include/modules/${module}/api/)
+        include_directories(${BIFROST_DIR}/include/modules/${module}/api/)
 endforeach()
 
+# RPath dirs
 set(CMAKE_BUILD_WITH_INSTALL_RPATH TRUE)
-SET(CMAKE_INSTALL_RPATH ${BIFROST_DIR}/lib)
+set(CMAKE_INSTALL_RPATH ${BIFROST_DIR}/lib ${HOUDINI_DIR}/dsolib ${MAYA_DIR}/lib)
 
 # Add src
 add_subdirectory(src)
