@@ -1,6 +1,11 @@
 add_definitions(${HOUDINI_CXXFLAGS})
 
-file(GLOB HB_SOURCES "HoudiniBifrost.cpp" "GEO_BifrostIOTranslator.cpp" "newDSO.cpp")
+file(GLOB HB_SOURCES
+    "HoudiniBifrost.cpp"
+    "GBIF_PackedImpl.cpp"
+    "GEO_BifrostIOTranslator.cpp"
+    "newDSO.cpp"
+    )
 
 # libHoudiniBifrost
 add_library(${PROJECT_NAME} SHARED ${HB_SOURCES})

@@ -4,6 +4,7 @@
 #include "UT/UT_IOTable.h"
 
 #include "HoudiniBifrost.h"
+#include "GBIF_PackedImpl.h"
 
 #include <bifrostapi/bifrost_om.h>
 #include <bifrostapi/bifrost_stateserver.h>
@@ -62,28 +63,7 @@ int GEO_BifrostIOTranslator::checkMagicNumber(unsigned magic)
 
 GA_Detail::IOStatus GEO_BifrostIOTranslator::fileLoad(GEO_Detail *gdp, UT_IStream &is, bool ate_magic)
 {
-	ObjectModel om;
-	FileIO fio = om.createFileIO(is.getFilename());
-	StateServer ss = fio.load();
-
-	// failed to read the file
-	if(!ss.valid())
-	{
-		std::cout << "Error reading bif file" << std::endl;
-		return 0;
-	}
-
-	// bif has only one component
-	Component component = ss.components()[0];
-
-	// check type
-	if(component.type()!=PointComponentType)
-	{
-		std::cout << "Currently only point components can be read" << std::endl;
-		return 0;
-	}
-
-	convertBifrostPointCloud(component, *dynamic_cast<GU_Detail*>(gdp));
+	GU_PrimPacked* packed = GBIF_PackedImpl::build(*dynamic_cast<GU_Detail*>(gdp), is.getFilename());
 
 	return 1;
 }
