@@ -28,6 +28,6 @@ SOFTWARE.
 namespace Bifrost{namespace API{class Component;}};
 class GU_Detail;
 
-bool convertBifrostPointCloud(const Bifrost::API::Component& component, GU_Detail& geo);
+bool convertBifrostPointCloud(const Bifrost::API::Component& component, GU_Detail& geo, bool positionOnly = false);
 
 #endif//HOUDINIBIFROST_H

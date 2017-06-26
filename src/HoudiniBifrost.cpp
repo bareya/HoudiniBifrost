@@ -24,27 +24,26 @@ struct ChannelAttributeAccessor
 };
 
 
-static ChannelAttributeAccessor createAttribute(GEO_Detail& geo, Ref& ch)
+static ChannelAttributeAccessor createAttribute(GEO_Detail& geo, Channel& channel)
 {
-	Channel channel(ch);
 	DataType type = channel.dataType();
 
 	if(channel.name()=="position" && type==FloatV3Type)
 	{
 		GA_Attribute* a = geo.getP();
-		return {ch, a, a->getAIFTuple()};
+		return {channel, a, a->getAIFTuple()};
 	}
 
 	if(channel.name()=="velocity" && type==FloatV3Type)
 	{
 		GA_Attribute* a = geo.addFloatTuple(GA_ATTRIB_POINT,"v",3);
-		return {ch, a, a->getAIFTuple()};
+		return {channel, a, a->getAIFTuple()};
 	}
 
 	if(channel.name()=="id64" && type==UInt64Type)
 	{
 		GA_Attribute* a =  geo.addIntTuple(GA_ATTRIB_POINT, "id", 1);
-		return {ch, a, a->getAIFTuple()};
+		return {channel, a, a->getAIFTuple()};
 	}
 
 	switch(type)
@@ -53,32 +52,32 @@ static ChannelAttributeAccessor createAttribute(GEO_Detail& geo, Ref& ch)
 		case Int64Type:
 		{
 			GA_Attribute* a = geo.addIntTuple(GA_ATTRIB_POINT, channel.name().c_str(), 1);
-			return {ch, a, a->getAIFTuple()};
+			return {channel, a, a->getAIFTuple()};
 		}
 		case FloatType:
 		{
 			GA_Attribute* a = geo.addFloatTuple(GA_ATTRIB_POINT, channel.name().c_str(), 1);
-			return {ch, a, a->getAIFTuple()};
+			return {channel, a, a->getAIFTuple()};
 		}
 		case FloatV2Type:
 		{
 			GA_Attribute* a = geo.addFloatTuple(GA_ATTRIB_POINT, channel.name().c_str(), 2);
-			return {ch, a, a->getAIFTuple()};
+			return {channel, a, a->getAIFTuple()};
 		}
 		case FloatV3Type:
 		{
 			GA_Attribute* a = geo.addFloatTuple(GA_ATTRIB_POINT, channel.name().c_str(), 3);
-			return {ch, a, a->getAIFTuple()};
+			return {channel, a, a->getAIFTuple()};
 		}
 		default:
 		{
-			return {ch, nullptr, nullptr};
+			return {channel, nullptr, nullptr};
 		}
 	}
 }
 
 
-bool convertBifrostPointCloud(const Component& component, GU_Detail& geo)
+bool convertBifrostPointCloud(const Component& component, GU_Detail& geo, bool positionOnly)
 {
 	if(component.type()!=PointComponentType)
 	{
@@ -91,10 +90,21 @@ bool convertBifrostPointCloud(const Component& component, GU_Detail& geo)
 
 	// create attributes
 	std::vector<ChannelAttributeAccessor> channelAttributeMap;
-	for(int ch=0;ch<channels.count();++ch)
+	if (positionOnly)
 	{
-		channelAttributeMap.emplace_back(createAttribute(geo, channels[ch]));
+		size_t index = channels.findFirstByName("position");
+		Channel channel(channels[index]);
+		channelAttributeMap.emplace_back(createAttribute(geo, channel));
 	}
+	else
+	{
+		for (int index = 0; index<channels.count(); ++index)
+		{
+			Channel channel(channels[index]);
+			channelAttributeMap.emplace_back(createAttribute(geo, channel));
+		}
+	}
+	
 
 	// create points
 	GA_Offset blockBegin = geo.appendPointBlock(component.elementCount());

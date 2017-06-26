@@ -6,19 +6,6 @@
 #include "HoudiniBifrost.h"
 #include "GBIF_PackedImpl.h"
 
-#include <bifrostapi/bifrost_om.h>
-#include <bifrostapi/bifrost_stateserver.h>
-#include <bifrostapi/bifrost_channel.h>
-#include <bifrostapi/bifrost_component.h>
-#include <bifrostapi/bifrost_layout.h>
-#include <bifrostapi/bifrost_fileio.h>
-#include <bifrostapi/bifrost_status.h>
-#include <bifrostapi/bifrost_array.h>
-#include <bifrostapi/bifrost_string.h>
-#include <bifrostapi/bifrost_ref.h>
-
-using namespace Bifrost::API;
-
 
 GEO_BifrostIOTranslator::GEO_BifrostIOTranslator()
 	: GEO_IOTranslator()
