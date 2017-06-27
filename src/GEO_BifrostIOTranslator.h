@@ -25,7 +25,7 @@ SOFTWARE.
 #ifndef GEO_BIFROSTIOTRANSLATOR_H
 #define GEO_BIFROSTIOTRANSLATOR_H
 
-#include "GEO/GEO_IOTranslator.h"
+#include <GEO/GEO_IOTranslator.h>
 
 class GEO_BifrostIOTranslator : public GEO_IOTranslator
 {

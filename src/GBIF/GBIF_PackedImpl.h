@@ -27,9 +27,9 @@ SOFTWARE.
 
 #include <memory>
 
-#include "GU/GU_PackedImpl.h"
-#include "GA/GA_PrimitiveTypeId.h"
-#include "UT/UT_PtrArray.h"
+#include <GU/GU_PackedImpl.h>
+#include <GA/GA_PrimitiveTypeId.h>
+#include <UT/UT_PtrArray.h>
 
 class GA_PrimitiveFactory;
 

@@ -1,7 +1,8 @@
-#include "UT/UT_DSOVersion.h"
-#include "GU/GU_Detail.h"
+#include <UT/UT_DSOVersion.h>
+#include <GU/GU_Detail.h>
 
-#include "GBIF_PackedImpl.h"
+#include <GBIF/GBIF_PackedImpl.h>
+
 #include "GEO_BifrostIOTranslator.h"
 
 

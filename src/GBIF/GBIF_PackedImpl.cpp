@@ -1,9 +1,10 @@
 #include "GBIF_PackedImpl.h"
+#include "GBIF_PackedGT.h"
 #include "HoudiniBifrost.h"
 
-#include "GU/GU_PackedFactory.h"
-#include "GU/GU_PrimPacked.h"
-#include "GA/GA_Primitive.h"
+#include <GU/GU_PackedFactory.h>
+#include <GU/GU_PrimPacked.h>
+#include <GA/GA_Primitive.h>
 
 #include <bifrostapi/bifrost_om.h>
 #include <bifrostapi/bifrost_stateserver.h>
@@ -113,7 +114,7 @@ void GBIF_PackedImpl::install(GA_PrimitiveFactory* factory)
 	if (theFactory->isRegistered())
 	{
 		theTypeId = theFactory->typeDef().getId();
-		// TODO register GT primitive ?
+		GBIF_CollectPacked::install(theTypeId);
 	}
 	else
 	{
@@ -289,8 +290,15 @@ void GBIF_PackedImpl::getWidthRange(fpreal& min, fpreal& max) const
 
 bool GBIF_PackedImpl::unpack(GU_Detail& gdp) const
 {
-	gdp.merge(*myCache.getPointCloudPackedDetail().readLock());
-	return true;
+	//gdp.merge(*myCache.getPointCloudPackedDetail().readLock());
+
+	GU_DetailHandleAutoReadLock rlock(getPackedDetail());
+	if (!rlock.getGdp())
+	{
+		return false;
+	}
+
+	return unpackToDetail(gdp, rlock.getGdp());
 }
 
 

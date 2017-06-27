@@ -1,10 +1,10 @@
 #include "GEO_BifrostIOTranslator.h"
 
-#include "GU/GU_Detail.h"
-#include "UT/UT_IOTable.h"
+#include <GU/GU_Detail.h>
+#include <UT/UT_IOTable.h>
 
-#include "HoudiniBifrost.h"
-#include "GBIF_PackedImpl.h"
+#include <GBIF/HoudiniBifrost.h>
+#include <GBIF/GBIF_PackedImpl.h>
 
 
 GEO_BifrostIOTranslator::GEO_BifrostIOTranslator()
