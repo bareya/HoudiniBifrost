@@ -1,31 +1,31 @@
 # Introduction
-Current version of `HoudiniBifrost` is a very simple `GEO_IOTranslator`. But what does it mean ? one could ask. `GEO_IOTranslator` is a way to extend Houdini's Geometry IO system. By creating new `GEO_IOTranslator` we provide ability to translate some geomtry format to native `GU_Detail`. After plugin installation, `File SOP` will gain a new feature, to read `*.bif` files.
+Current version of `HoudiniBifrost` is a very simple `GEO_IOTranslator`. But, "what does it mean?", one could ask. `GEO_IOTranslator` is a way to extend Houdini's Geometry IO system. By creating new `GEO_IOTranslator` we provide ability to translate some geometry format to native `GU_Detail`. After plugin installation, `File SOP` will gain a new feature to read `*.bif` files.
 
-Unfortunately, `HoudiniBifrost` requires Maya dependency. You must have access to Maya and Bifrost libraries, but to use `HoudiniBifrost` does not require Maya license.
+Unfortunately, `HoudiniBifrost` requires Maya dependency. You must have access to Maya and Bifrost libraries, but to use `HoudiniBifrost`, you do not require a Maya license.
 
-### If you want to express your appreciation by buing me a coffee, here are few ways:
+### If you want to express your appreciation by buying me a coffee, here is a way:
  * [paypal](https://www.paypal.me/bareya/5)
 
 
 # Installation
-For now I provide compiled binaries to following operating systems:
+For now, I am providing compiled binaries to following operating systems:
 * Linux
 * Windows 10
 
-Binaries can be found [here](https://github.com/bareya/HoudiniBifrost/releases). As soon as possible I get acccess to osx I will release binaries for it.
+Binaries can be found [here](https://github.com/bareya/HoudiniBifrost/releases). As soon as I get acccess to osx, I will release binaries for it.
 
 #### Linux installation
 
 Copy `libHoudiniBifrost.so` library to home `houdini16.0/dso`. 
 
-Also, you have to add some environment variables to make it working, here is an example how to set it up:
+Also, you have to add some environment variables to make it work. Here is an example of how to set it up:
 ```bash
 export HFS=/opt/hfs16.0
 export MAYA_APP_DIR=/home/bareya/Downloads/Maya/usr/autodesk/maya2017
 export LD_LIBRARY_PATH=${HFS}/dsolib:${MAYA_APP_DIR}/plug-ins/bifrost/lib/
 ```
 
-Released shared object was built under `Mint Linux 4.4.0-81-generic Ubuntu x86_64 GNU/Linux`. If you are having any difficulties with distributed shared object, you can build it from sources, or post a question in Issues section.
+Released shared object was built under `Mint Linux 4.4.0-81-generic Ubuntu x86_64 GNU/Linux`. If you are having any difficulties with the distributed shared object, you can build it from sources, or post a question in Issues section.
 
 #### Windows installation
 Copy `HoudiniBifrost.dll` library to home `houdini16.0/dso`. 
