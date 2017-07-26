@@ -36,6 +36,8 @@ Also, you have to append few entries to `PATH` environment variable:
 
 [How to add environment variables on Windows](https://www.computerhope.com/issues/ch000549.htm)
 
+In addition you might need to install [Visual C++ Redistributable for Visual Studio 2012 Update 4](https://www.microsoft.com/en-ca/download/confirmation.aspx?id=30679), details can be found [here](https://github.com/bareya/HoudiniBifrost/issues/5)
+
 # Compilation
 
 To pull it:
