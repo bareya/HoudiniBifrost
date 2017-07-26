@@ -2,9 +2,9 @@
 #include <string>
 #include <vector>
 
-#include "GU/GU_Detail.h"
-
 #include "HoudiniBifrost.h"
+
+#include <GU/GU_Detail.h>
 
 #include <bifrostapi/bifrost_om.h>
 #include <bifrostapi/bifrost_stateserver.h>

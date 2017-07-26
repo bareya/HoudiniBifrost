@@ -1,9 +1,8 @@
 #include "GEO_BifrostIOTranslator.h"
-
-#include "GU/GU_Detail.h"
-#include "UT/UT_IOTable.h"
-
 #include "HoudiniBifrost.h"
+
+#include <GU/GU_Detail.h>
+#include <UT/UT_IOTable.h>
 
 #include <bifrostapi/bifrost_om.h>
 #include <bifrostapi/bifrost_stateserver.h>

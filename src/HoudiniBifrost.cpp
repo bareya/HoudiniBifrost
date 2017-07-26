@@ -1,6 +1,6 @@
 #include "HoudiniBifrost.h"
 
-#include "GU/GU_Detail.h"
+#include <GU/GU_Detail.h>
 
 #include <bifrostapi/bifrost_om.h>
 #include <bifrostapi/bifrost_stateserver.h>
